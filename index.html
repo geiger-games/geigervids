@@ -25,6 +25,12 @@
         videoCurrentVideo.load();
     }
 
+    function searchVideos() {
+        pFilenames.textContent = `videos: ${names.filter(name => name.includes(inputFilename.value))}`;
+    }
+
+    inputFilename.addEventListener("input", searchVideos);
+
     (async () => {
     const res = await fetch("https://yfeaeizopiqnfodrtttw.supabase.co/storage/v1/object/list/videos", {
         method: "POST",
@@ -43,7 +49,6 @@
     const data = await res.json();
     const names = data.map(file => file.name);
     console.log(names);
-    pFilenames.textContent = `filenames: ${names}`;
     })();
     </script>
 </body>
