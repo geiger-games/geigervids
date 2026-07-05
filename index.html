@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <video id="currentvideo" controls loop></video><br>
+    <input id="filename" type="text" placeholder="Filename here..." maxlength="40">
+    <button onclick="submitFilename()">Submit</button><br>
+    <p id="filenames"></p>
+    <script>
+    const VIDEO_BASE =
+        "https://yfeaeizopiqnfodrtttw.supabase.co/storage/v1/object/public/videos/";
+
+    const pFilenames = document.getElementById("filenames");
+    const inputFilename = document.getElementById("filename");
+    const videoCurrentVideo = document.getElementById("currentvideo");
+
+    const getVideo = (name) => VIDEO_BASE + name;
+
+    function submitFilename() {
+        videoCurrentVideo.src = getVideo(inputFilename.value);
+        videoCurrentVideo.load();
+    }
+
+    (async () => {
+    const res = await fetch("https://yfeaeizopiqnfodrtttw.supabase.co/storage/v1/object/list/videos", {
+        method: "POST",
+        headers: {
+            apikey: "sb_publishable_S6JK_c0Ig6P6iD8mI0wo5w_sC0ve3M-",
+            Authorization: "Bearer sb_publishable_S6JK_c0Ig6P6iD8mI0wo5w_sC0ve3M-",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            prefix: "",
+            limit: 100,
+            offset: 0
+        })
+    });
+
+    const data = await res.json();
+    const names = data.map(file => file.name);
+    console.log(names);
+    pFilenames.textContent = `filenames: ${names}`;
+    })();
+    </script>
+</body>
+</html>
