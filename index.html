@@ -17,6 +17,7 @@
     const pFilenames = document.getElementById("filenames");
     const inputFilename = document.getElementById("filename");
     const videoCurrentVideo = document.getElementById("currentvideo");
+    let names;
 
     const getVideo = (name) => VIDEO_BASE + name;
 
@@ -47,8 +48,7 @@
     });
 
     const data = await res.json();
-    const names = data.map(file => file.name);
-    console.log(names);
+    names = data.map(file => file.name);
     })();
     </script>
 </body>
