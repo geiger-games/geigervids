@@ -32,6 +32,26 @@
             font-size: large;
             margin: 4px;
         }
+        #filename {
+            background-color: #312c42;
+            color: whitesmoke;
+            font-size: large;
+        }
+        #submit {
+            background-color: #312c42;
+            color: whitesmoke;
+            font-size: large;
+            border: none;
+        }
+        #searchbar {
+            display: flex;
+            justify-content: center;
+
+            width: fit-content;
+            margin: 0 auto;
+
+            border: 2px solid whitesmoke;
+        }
         #suggestions > div:hover {
             background-color: #444;
             cursor: pointer;
@@ -39,9 +59,9 @@
     </style>
 </head>
 <body>
-    <div class="childcenterh">
+    <div id="searchbar">
         <input id="filename" type="text" placeholder="Find video..." maxlength="40">
-        <button onclick="submitFilename()">Search</button>
+        <button onclick="submitFilename()" id="submit">Search</button>
     </div>
     <div id="suggestions"></div>
 
