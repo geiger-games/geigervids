@@ -40,8 +40,8 @@
 </head>
 <body>
     <div class="childcenterh">
-        <input id="filename" type="text" placeholder="Filename here..." maxlength="40">
-        <button onclick="submitFilename()">Submit</button>
+        <input id="filename" type="text" placeholder="Find video..." maxlength="40">
+        <button onclick="submitFilename()">Search</button>
     </div>
     <div id="suggestions"></div>
 
@@ -57,7 +57,7 @@
     const divSuggestions = document.getElementById("suggestions");
     let names;
 
-    const getVideo = (name) => VIDEO_BASE + name;
+    const getVideo = (name) => VIDEO_BASE + name + ".mp4";
 
     function submitFilename() {
         divSuggestions.innerHTML = "";
@@ -101,7 +101,7 @@
     });
 
     const data = await res.json();
-    names = data.map(file => file.name);
+    names = data.map(file => file.name.replace(".mp4", ""));
     })();
     </script>
 </body>
