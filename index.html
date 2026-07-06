@@ -4,12 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeigerVids - Post, Watch, Enjoy</title>
+    <style>
+        body {
+            background-color: #312c42;
+        }
+        .childcenterh {
+            display: flex;
+            justify-content: center;
+        }
+        .selfcenterh {
+            display: block;
+            margin: 0 auto;
+        }
+        #suggestions {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        #suggestions > div {
+            border-color: black;
+            background-color: darkgray;
+            color: white;
+            font-size: large;
+        }
+    </style>
 </head>
 <body>
-    <video id="currentvideo" controls loop></video><br>
-    <input id="filename" type="text" placeholder="Filename here..." maxlength="40">
-    <button onclick="submitFilename()">Submit</button><br>
-    <p id="filenames"></p>
+    <div class="childcenterh">
+        <input id="filename" type="text" placeholder="Filename here..." maxlength="40">
+        <button onclick="submitFilename()">Submit</button>
+    </div>
+    <div id="suggestions"></div>
+
+    <video id="currentvideo" class="selfcenterh" controls loop></video>
+
     <script>
     const VIDEO_BASE =
         "https://yfeaeizopiqnfodrtttw.supabase.co/storage/v1/object/public/videos/";
@@ -17,17 +45,33 @@
     const pFilenames = document.getElementById("filenames");
     const inputFilename = document.getElementById("filename");
     const videoCurrentVideo = document.getElementById("currentvideo");
+    const divSuggestions = document.getElementById("suggestions");
     let names;
 
     const getVideo = (name) => VIDEO_BASE + name;
 
     function submitFilename() {
+        divSuggestions.innerHTML = "";
         videoCurrentVideo.src = getVideo(inputFilename.value);
         videoCurrentVideo.load();
     }
 
     function searchVideos() {
-        pFilenames.textContent = `videos: ${names.filter(name => name.includes(inputFilename.value))}`;
+        const query = inputFilename.value.toLowerCase();
+
+        const filtered = names.filter(name =>
+            name.toLowerCase().includes(query)
+        );
+
+        divSuggestions.innerHTML = filtered.map(name =>
+            `<div class="suggestion" onclick="selectVideo('${name}')">${name}</div>`
+        ).join("");
+    }
+
+    function selectVideo(name) {
+        inputFilename.value = name;
+        submitFilename();
+        divSuggestions.innerHTML = "";
     }
 
     inputFilename.addEventListener("input", searchVideos);
